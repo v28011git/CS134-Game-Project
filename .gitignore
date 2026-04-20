@@ -1,0 +1,8 @@
+Library/
+Logs/
+UserSettings/
+Builds/
+.DS_Store
+.vscode/
+*.csproj
+*.sln
