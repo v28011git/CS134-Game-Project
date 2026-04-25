@@ -17,9 +17,6 @@ public class PlayerController : MonoBehaviour
  // Speed at which the player moves.
  public float speed = 0;
 
- // UI text component to display count of "PickUp" objects collected.
- public TextMeshProUGUI countText;
-
  // UI object to display winning text.
  public GameObject winTextObject;
 
@@ -33,14 +30,13 @@ public class PlayerController : MonoBehaviour
  // Get and store the Rigidbody component attached to the player.
         rb = GetComponent<Rigidbody>();
 
- // Initialize count to zero.
+       // Initialize count to zero.
         count = 0;
 
- // Update the count display.
-        SetCountText();
-
- // Initially set the win text to be inactive.
-        winTextObject.SetActive(false);
+       // Initially set the win text to be inactive.
+       if(winTextObject != null){
+              winTextObject.SetActive(false);
+       }
     }
  
  // This function is called when a move input is detected.
@@ -77,15 +73,13 @@ public class PlayerController : MonoBehaviour
             count = count + 1;
 
  // Update the count display.
-            SetCountText();
+            CheckWin();
         }
     }
 
- // Function to update the displayed count of "PickUp" objects collected.
- void SetCountText() 
+ // Checks to see if the player has collected the target
+ void CheckWin() 
     {
- // Update the count text with the current count.
-        countText.text = "Count: " + count.ToString();
 
  // Check if the count has reached or exceeded the win condition.
  if (count >= 1)

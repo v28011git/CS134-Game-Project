@@ -6,3 +6,4 @@ Builds/
 .vscode/
 *.csproj
 *.sln
+Temp/
