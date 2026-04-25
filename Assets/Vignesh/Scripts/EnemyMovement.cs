@@ -3,6 +3,18 @@ using UnityEngine.AI;
 
 public class EnemyMovement : MonoBehaviour
 {
+
+   [Header("AI Speed")]
+   public float initialSpeed = 3f;
+   public float maxSpeed = 8f;
+   public float timeUntilMaxSpeed = 60f;
+
+   //used in time for the game round
+   private float timerRound;
+
+   //current speed of the enemy AI
+   private float currentSpeed;
+
  // Reference to the player's transform.
  public Transform player;
 
@@ -14,16 +26,34 @@ public class EnemyMovement : MonoBehaviour
     {
  // Get and store the NavMeshAgent component attached to this object.
         navMeshAgent = GetComponent<NavMeshAgent>();
+
+        currentSpeed = initialSpeed;
+
+        if(navMeshAgent != null){
+            navMeshAgent.speed = currentSpeed;
+        }
     }
 
  // Update is called once per frame.
  void Update()
     {
- // If there's a reference to the player...
- if (player != null)
-        {    
- // Set the enemy's destination to the player's current position.
-            navMeshAgent.SetDestination(player.position);
-        }
+      if(player == null || navMeshAgent == null){
+         return;
+      }
+
+      // used to track how long the game round has been running
+      timerRound += Time.deltaTime;
+
+      //gives progress to reaching the max speed (0 to 1)
+      float progressSpeed = Mathf.Clamp01(timerRound / timeUntilMaxSpeed);
+
+      //used to slowly increase the speed
+      currentSpeed = Mathf.Lerp(initialSpeed, maxSpeed, progressSpeed);
+
+      navMeshAgent.speed = currentSpeed;
+
+      // Set the enemy's destination to the player's current position.
+      navMeshAgent.SetDestination(player.position);
+        
     }
 }

@@ -24,6 +24,8 @@ public class PlayerController : MonoBehaviour
 
   public GameObject loseFX;
 
+  public UIGameTimer uiGameTimer;
+
  // Start is called before the first frame update.
  void Start()
     {
@@ -80,15 +82,19 @@ public class PlayerController : MonoBehaviour
  // Checks to see if the player has collected the target
  void CheckWin() 
     {
-
- // Check if the count has reached or exceeded the win condition.
- if (count >= 1)
+       // Check if the count has reached or exceeded the win condition.
+       if (count >= 1)
         {
- // Display the win text.
+              if(uiGameTimer != null){
+                     uiGameTimer.StopTimer();
+              }
+
+
+              // Display the win text.
             winTextObject.SetActive(true);
             winFX.SetActive(true);
 
- // Destroy the enemy GameObject.
+              // Destroy the enemy GameObject.
             Destroy(GameObject.FindGameObjectWithTag("Enemy"));
         }
     }
@@ -97,6 +103,11 @@ private void OnCollisionEnter(Collision collision)
 {
  if (collision.gameObject.CompareTag("Enemy"))
     {
+
+       if(uiGameTimer != null){
+              uiGameTimer.StopTimer();
+       }
+
  // Destroy the current object
         Destroy(gameObject); 
         loseFX.SetActive(true);
