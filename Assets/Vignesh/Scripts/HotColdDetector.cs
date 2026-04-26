@@ -11,7 +11,7 @@ public class HotColdDetector : MonoBehaviour
     public Transform player;
 
     [Header("Distance")]
-    public float maxDistance = 42f;
+    public float maxDistance = 55f;
 
     [Header("Sound")]
     public AudioSource audioSource;

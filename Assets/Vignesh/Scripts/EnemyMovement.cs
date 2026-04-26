@@ -7,7 +7,7 @@ public class EnemyMovement : MonoBehaviour
    [Header("AI Speed")]
    public float initialSpeed = 3f;
    public float maxSpeed = 8f;
-   public float timeUntilMaxSpeed = 60f;
+   public float timeUntilMaxSpeed = 120f;
 
    //used in time for the game round
    private float timerRound;
