@@ -7,7 +7,7 @@ public class EnemyMovement : MonoBehaviour
    [Header("AI Speed")]
    public float initialSpeed = 3f;
    public float maxSpeed = 8f;
-   public float timeUntilMaxSpeed = 120f;
+   public float timeUntilMaxSpeed = 180f;
 
    //used in time for the game round
    private float timerRound;
@@ -27,11 +27,7 @@ public class EnemyMovement : MonoBehaviour
  // Get and store the NavMeshAgent component attached to this object.
         navMeshAgent = GetComponent<NavMeshAgent>();
 
-        currentSpeed = initialSpeed;
-
-        if(navMeshAgent != null){
-            navMeshAgent.speed = currentSpeed;
-        }
+        ResetSpeed();
     }
 
  // Update is called once per frame.
@@ -55,5 +51,17 @@ public class EnemyMovement : MonoBehaviour
       // Set the enemy's destination to the player's current position.
       navMeshAgent.SetDestination(player.position);
         
+    }
+
+    public void ResetSpeed(){
+      timerRound = 0f;
+      currentSpeed = initialSpeed;
+      if(navMeshAgent == null){
+         navMeshAgent = GetComponent<NavMeshAgent>();
+      }
+      if(navMeshAgent != null){
+         navMeshAgent.speed = currentSpeed;
+         navMeshAgent.ResetPath();
+      }
     }
 }

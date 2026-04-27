@@ -26,6 +26,8 @@ public class PlayerController : MonoBehaviour
 
   public UIGameTimer uiGameTimer;
 
+  public GameManager gameManager;
+
  // Start is called before the first frame update.
  void Start()
     {
@@ -89,6 +91,9 @@ public class PlayerController : MonoBehaviour
                      uiGameTimer.StopTimer();
               }
 
+              if(gameManager != null){
+                     gameManager.RoundEnd();
+              }
 
               // Display the win text.
             winTextObject.SetActive(true);
@@ -108,11 +113,16 @@ private void OnCollisionEnter(Collision collision)
               uiGameTimer.StopTimer();
        }
 
+       if(gameManager != null){
+              gameManager.RoundEnd();
+       }
+
  // Destroy the current object
         Destroy(gameObject); 
         loseFX.SetActive(true);
  // Update the winText to display "You Lose!"
         winTextObject.gameObject.SetActive(true);
+        winTextObject.GetComponent<TextMeshProUGUI>().color = Color.red;
         winTextObject.GetComponent<TextMeshProUGUI>().text = "You Lose!";
  
     }
