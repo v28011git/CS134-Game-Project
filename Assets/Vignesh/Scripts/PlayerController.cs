@@ -4,130 +4,126 @@ using TMPro;
 
 public class PlayerController : MonoBehaviour
 {
- // Rigidbody of the player.
- private Rigidbody rb; 
+       // Rigidbody of the player.
+       private Rigidbody rb; 
 
- // Variable to keep track of collected "PickUp" objects.
- private int count;
+       // Variable to keep track of collected "PickUp" objects.
+       private int count;
 
- // Movement along X and Y axes.
- private float movementX;
- private float movementY;
+       // Movement along X and Y axes.
+       private float movementX;
+       private float movementY;
 
- // Speed at which the player moves.
- public float speed = 0;
+       // Speed at which the player moves.
+       public float speed = 0;
 
- // UI object to display winning text.
- public GameObject winTextObject;
+       // UI object to display winning text.
+       public GameObject winTextObject;
 
- public GameObject winFX;
+       public GameObject winFX;
 
-  public GameObject loseFX;
+       public GameObject loseFX;
 
-  public UIGameTimer uiGameTimer;
+       public UIGameTimer uiGameTimer;
 
-  public GameManager gameManager;
+       public GameManager gameManager;
 
- // Start is called before the first frame update.
- void Start()
-    {
- // Get and store the Rigidbody component attached to the player.
-        rb = GetComponent<Rigidbody>();
+       // Start is called before the first frame update.
+       void Start()
+       {
+              // Get and store the Rigidbody component attached to the player.
+              rb = GetComponent<Rigidbody>();
 
-       // Initialize count to zero.
-        count = 0;
+              // Initialize count to zero.
+              count = 0;
 
-       // Initially set the win text to be inactive.
-       if(winTextObject != null){
-              winTextObject.SetActive(false);
-       }
-    }
- 
- // This function is called when a move input is detected.
- void OnMove(InputValue movementValue)
-    {
- // Convert the input value into a Vector2 for movement.
-        Vector2 movementVector = movementValue.Get<Vector2>();
-
- // Store the X and Y components of the movement.
-        movementX = movementVector.x; 
-        movementY = movementVector.y; 
-    }
-
- // FixedUpdate is called once per fixed frame-rate frame.
- private void FixedUpdate() 
-    {
- // Create a 3D movement vector using the X and Y inputs.
-        Vector3 movement = new Vector3 (movementX, 0.0f, movementY);
-
- // Apply force to the Rigidbody to move the player.
-        rb.AddForce(movement * speed); 
-    }
-
- 
- void OnTriggerEnter(Collider other) 
-    {
- // Check if the object the player collided with has the "PickUp" tag.
- if (other.gameObject.CompareTag("PickUp")) 
-        {
- // Deactivate the collided object (making it disappear).
-            other.gameObject.SetActive(false);
-
- // Increment the count of "PickUp" objects collected.
-            count = count + 1;
-
- // Update the count display.
-            CheckWin();
-        }
-    }
-
- // Checks to see if the player has collected the target
- void CheckWin() 
-    {
-       // Check if the count has reached or exceeded the win condition.
-       if (count >= 1)
-        {
-              if(uiGameTimer != null){
-                     uiGameTimer.StopTimer();
+              // Initially set the win text to be inactive.
+              if(winTextObject != null){
+                     winTextObject.SetActive(false);
               }
-
-              if(gameManager != null){
-                     gameManager.RoundEnd();
-              }
-
-              // Display the win text.
-            winTextObject.SetActive(true);
-            winFX.SetActive(true);
-
-              // Destroy the enemy GameObject.
-            Destroy(GameObject.FindGameObjectWithTag("Enemy"));
-        }
-    }
-
-private void OnCollisionEnter(Collision collision)
-{
- if (collision.gameObject.CompareTag("Enemy"))
-    {
-
-       if(uiGameTimer != null){
-              uiGameTimer.StopTimer();
        }
-
-       if(gameManager != null){
-              gameManager.RoundEnd();
-       }
-
- // Destroy the current object
-        Destroy(gameObject); 
-        loseFX.SetActive(true);
- // Update the winText to display "You Lose!"
-        winTextObject.gameObject.SetActive(true);
-        winTextObject.GetComponent<TextMeshProUGUI>().color = Color.red;
-        winTextObject.GetComponent<TextMeshProUGUI>().text = "You Lose!";
  
-    }
+       // This function is called when a move input is detected.
+       void OnMove(InputValue movementValue)
+       {
+              // Convert the input value into a Vector2 for movement.
+              Vector2 movementVector = movementValue.Get<Vector2>();
 
-}
+              // Store the X and Y components of the movement.
+              movementX = movementVector.x; 
+              movementY = movementVector.y; 
+       }
 
+       // FixedUpdate is called once per fixed frame-rate frame.
+       private void FixedUpdate() 
+       {
+              // Create a 3D movement vector using the X and Y inputs.
+              Vector3 movement = new Vector3 (movementX, 0.0f, movementY);
 
+              // Apply force to the Rigidbody to move the player.
+              rb.AddForce(movement * speed); 
+       }
+
+ 
+       void OnTriggerEnter(Collider other) 
+       {
+              // Check if the object the player collided with has the "PickUp" tag.
+              if (other.gameObject.CompareTag("PickUp")) 
+              {
+                     // Deactivate the collided object (making it disappear).
+                     other.gameObject.SetActive(false);
+
+                     // Increment the count of "PickUp" objects collected.
+                     count = count + 1;
+
+                     // Update the count display.
+                     CheckWin();
+              }
+       }
+
+       // Checks to see if the player has collected the target
+       void CheckWin() 
+       {
+              // Check if the count has reached or exceeded the win condition.
+              if (count >= 1)
+              {
+                     if(uiGameTimer != null){
+                           uiGameTimer.StopTimer();
+                     }
+
+                     if(gameManager != null){
+                        gameManager.RoundEnd();
+                     }
+
+                     // Display the win fx and text
+                     winTextObject.SetActive(true);
+                     winFX.SetActive(true);
+
+                     // Destroy the enemy GameObject.
+                     Destroy(GameObject.FindGameObjectWithTag("Enemy"));
+              }
+       }
+
+       private void OnCollisionEnter(Collision collision)
+       {
+              if (collision.gameObject.CompareTag("Enemy"))
+              {
+                     if(uiGameTimer != null){
+                            uiGameTimer.StopTimer();
+                     }
+
+                     if(gameManager != null){
+                            gameManager.RoundEnd();
+                     }
+
+                     // Destroy the current object
+                     Destroy(gameObject); 
+                     loseFX.SetActive(true);
+                     // Update the winText to display "You Lose!"
+                     winTextObject.gameObject.SetActive(true);
+                     winTextObject.GetComponent<TextMeshProUGUI>().color = Color.red;
+                     winTextObject.GetComponent<TextMeshProUGUI>().text = "You Lose!";
+
+              }
+       }
 }
