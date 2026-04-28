@@ -28,6 +28,8 @@ public class PlayerController : MonoBehaviour
 
        public GameManager gameManager;
 
+       public AudioListener parentAudioListener;
+
        // Start is called before the first frame update.
        void Start()
        {
@@ -114,6 +116,10 @@ public class PlayerController : MonoBehaviour
 
                      if(gameManager != null){
                             gameManager.RoundEnd();
+                     }
+
+                     if(parentAudioListener != null){
+                            parentAudioListener.enabled = true;
                      }
 
                      // Destroy the current object
